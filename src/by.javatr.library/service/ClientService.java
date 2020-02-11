@@ -3,8 +3,7 @@ package by.javatr.library.service;
 import by.javatr.library.bean.Book;
 import by.javatr.library.dao.daoimpl.BookDAOImpl;
 import by.javatr.library.dao.daoimpl.UserDAOImpl;
-import by.javatr.library.dao.exception.DAOException;
-import by.javatr.library.service.exception.ServiceException;
+import by.javatr.library.dao.DAOException;
 import by.javatr.library.service.factory.BookBuilder;
 
 import java.io.BufferedReader;

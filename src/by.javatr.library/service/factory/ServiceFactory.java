@@ -1,7 +1,7 @@
 package by.javatr.library.service.factory;
 
 import by.javatr.library.service.ClientService;
-import by.javatr.library.service.exception.ServiceException;
+import by.javatr.library.service.ServiceException;
 
 public class ServiceFactory {
 

@@ -1,9 +1,9 @@
 package by.javatr.library.dao.daoimpl;
 
 import by.javatr.library.bean.User;
+import by.javatr.library.dao.DAOException;
 import by.javatr.library.dao.FileDAO;
 import by.javatr.library.dao.UserDAO;
-import by.javatr.library.dao.exception.DAOException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +21,7 @@ import static by.javatr.library.service.validation.Validation.cryptThePassword;
 public class UserDAOImpl implements UserDAO, FileDAO {
 
     String address = "src\\by.javatr.library\\resource\\user\\users.txt";
-   // String address = "C:\\Users\\RGReeTy\\IdeaProjects\\FinalProject_HomeLibrary\\src\\by.javatr.library\\resource\\user\\users.txt";
+    // String address = "C:\\Users\\RGReeTy\\IdeaProjects\\FinalProject_HomeLibrary\\src\\by.javatr.library\\resource\\user\\users.txt";
 
     private static final Map<Integer, User> clientList = new HashMap<Integer, User>();
     private static int id = 0;
