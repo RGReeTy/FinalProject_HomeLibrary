@@ -17,7 +17,7 @@ public class BookDAOImpl implements BookDAO, FileDAO {
 
     public BookDAOImpl() throws DAOException {
         books = new ArrayList<>();
-        loadDataFromFile("src\\by\\javatr\\library\\resource\\library\\Library.txt");
+       loadDataFromFile("src\\by.javatr.library\\resource\\library\\Library.txt");
     }
 
     @Override
