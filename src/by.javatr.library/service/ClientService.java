@@ -1,9 +1,9 @@
 package by.javatr.library.service;
 
 import by.javatr.library.bean.Book;
+import by.javatr.library.dao.DAOException;
 import by.javatr.library.dao.daoimpl.BookDAOImpl;
 import by.javatr.library.dao.daoimpl.UserDAOImpl;
-import by.javatr.library.dao.DAOException;
 import by.javatr.library.service.factory.BookBuilder;
 
 import java.io.BufferedReader;
@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 import static by.javatr.library.service.validation.Validation.checkAllSymbolsOnLetterOrWhitespaceRegEx;
 
 public class ClientService {
-    UserDAOImpl userDAO = new UserDAOImpl();
-    BookDAOImpl bookDAO;
+    private UserDAOImpl userDAO = new UserDAOImpl();
+    private BookDAOImpl bookDAO;
 
     {
         try {
@@ -71,7 +71,7 @@ public class ClientService {
     }
 
     public ArrayList<Book> findTheBook() throws ServiceException {
-        String textToFind = null;
+        String textToFind;
         ArrayList<Book> findingBooks = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -123,7 +123,9 @@ public class ClientService {
             }
             return true;
         } else {
-            throw new IllegalArgumentException("Wrong symbols at login/password! Needed A-Z, 0-9");
+            System.out.println("Wrong symbols at login/password! Needed A-Z, 0-9");
+            return false;
         }
     }
 }
+

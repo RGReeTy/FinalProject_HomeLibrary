@@ -20,7 +20,7 @@ import static by.javatr.library.service.validation.Validation.cryptThePassword;
 
 public class UserDAOImpl implements UserDAO, FileDAO {
 
-    String address = "src\\by.javatr.library\\resource\\user\\users.txt";
+    private String address = "src\\by.javatr.library\\resource\\user\\users.txt";
     // String address = "C:\\Users\\RGReeTy\\IdeaProjects\\FinalProject_HomeLibrary\\src\\by.javatr.library\\resource\\user\\users.txt";
 
     private static final Map<Integer, User> clientList = new HashMap<Integer, User>();
@@ -30,40 +30,31 @@ public class UserDAOImpl implements UserDAO, FileDAO {
     {
         try {
             loadDataFromFile(address);
-        } catch (FileNotFoundException ex) {
-            try {
-                throw new DAOException("Error at loading User's list.", ex);
-            } catch (DAOException e) {
-                e.printStackTrace();
-            }
+        } catch (DAOException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public boolean signIn(String login, String password) throws DAOException {
-        if (clientList != null) {
-            for (Map.Entry<Integer, User> entry : clientList.entrySet()) {
-                if (checkTheUserOnAuth(login, password, entry.getValue())) {
-                    currentUser.setUserName(entry.getValue().getUserName());
-                    currentUser.setUserPassword(entry.getValue().getUserPassword());
-                    currentUser.setAdmin(entry.getValue().isAdmin());
-                    return true;
-                }
+        for (Map.Entry<Integer, User> entry : clientList.entrySet()) {
+            if (checkTheUserOnAuth(login, password, entry.getValue())) {
+                currentUser.setUserName(entry.getValue().getUserName());
+                currentUser.setUserPassword(entry.getValue().getUserPassword());
+                currentUser.setAdmin(entry.getValue().isAdmin());
+                return true;
             }
-        } else {
-            throw new DAOException("Client list equals 0!");
         }
         return false;
     }
 
     @Override
-    public void loadDataFromFile(String address) throws FileNotFoundException {
-
+    public void loadDataFromFile(String address) throws DAOException {
         Scanner scanner = null;
         try {
             scanner = new Scanner(new File(address), "UTF-8");
         } catch (FileNotFoundException e) {
-            throw new FileNotFoundException();
+            throw new DAOException("File not found!");
         }
         String usersInString = scanner.useDelimiter("\\A").next();
 
@@ -81,7 +72,6 @@ public class UserDAOImpl implements UserDAO, FileDAO {
 
     @Override
     public void registration(String login, String password) throws DAOException {
-        //вставить валидацию, если юзер уже существует - вернуть false, нет - зарегистрировать + true
         if (!signIn(login, password)) {
             User registeredUser = new User();
             registeredUser.setUserName(login);
@@ -89,15 +79,11 @@ public class UserDAOImpl implements UserDAO, FileDAO {
             registeredUser.setAdmin(false);
             saveNewUserToFile(registeredUser);
         }
-        try {
-            loadDataFromFile(address);
-        } catch (FileNotFoundException e) {
-            throw new DAOException("Error at finding user's list", e);
-        }
+        loadDataFromFile(address);
     }
 
-    public void saveNewUserToFile(User userForRegistr) throws DAOException {
-        try (FileWriter writer = new FileWriter("src\\by\\javatr\\library\\resource\\user\\users.txt", true)) {
+    private void saveNewUserToFile(User userForRegistr) throws DAOException {
+        try (FileWriter writer = new FileWriter(address, true)) {
             writer.append(System.lineSeparator());
             writer.write(userForRegistr.getUserName() + " "
                     + cryptThePassword(userForRegistr.getUserPassword())

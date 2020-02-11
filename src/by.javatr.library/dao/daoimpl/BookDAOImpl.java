@@ -2,10 +2,13 @@ package by.javatr.library.dao.daoimpl;
 
 import by.javatr.library.bean.Book;
 import by.javatr.library.dao.BookDAO;
-import by.javatr.library.dao.FileDAO;
 import by.javatr.library.dao.DAOException;
+import by.javatr.library.dao.FileDAO;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -14,10 +17,11 @@ import java.util.regex.Pattern;
 public class BookDAOImpl implements BookDAO, FileDAO {
 
     private ArrayList<Book> books;
+    private String address = "src\\by.javatr.library\\resource\\library\\Library.txt";
 
     public BookDAOImpl() throws DAOException {
         books = new ArrayList<>();
-       loadDataFromFile("src\\by.javatr.library\\resource\\library\\Library.txt");
+        loadDataFromFile(address);
     }
 
     @Override
@@ -59,7 +63,7 @@ public class BookDAOImpl implements BookDAO, FileDAO {
     }
 
     public void saveLibraryToTXT() throws DAOException {
-        try (FileWriter writer = new FileWriter("src\\by\\javatr\\library\\resource\\library\\Library.txt", false)) {
+        try (FileWriter writer = new FileWriter(address, false)) {
             for (Book book : books) {
                 writer.append(System.lineSeparator());
                 writer.write(book.getBookName() + " + " + book.getAuthor() + " + " + book.getTypeOfBook() + " + " + book.getAboutBook() + "@");
