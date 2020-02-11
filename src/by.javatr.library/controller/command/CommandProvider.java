@@ -1,6 +1,12 @@
 package by.javatr.library.controller.command;
 
-import by.javatr.library.controller.command.impl.*;
+import by.javatr.library.controller.command.impl.AddBook;
+import by.javatr.library.controller.command.impl.DeleteBook;
+import by.javatr.library.controller.command.impl.Find;
+import by.javatr.library.controller.command.impl.Registration;
+import by.javatr.library.controller.command.impl.Show;
+import by.javatr.library.controller.command.impl.SignIn;
+import by.javatr.library.controller.command.impl.WrongRequest;
 
 import java.util.HashMap;
 import java.util.Map;

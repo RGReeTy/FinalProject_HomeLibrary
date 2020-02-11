@@ -1,10 +1,7 @@
 package by.javatr.library.service.factory;
 
-import by.javatr.library.dao.exception.DAOException;
 import by.javatr.library.service.ClientService;
 import by.javatr.library.service.exception.ServiceException;
-
-import java.io.FileNotFoundException;
 
 public class ServiceFactory {
 
