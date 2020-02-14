@@ -6,6 +6,7 @@ import java.util.Objects;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 7050263262802475200L;
+
     private String userName;
     private String userPassword;
     private boolean isAdmin;
