@@ -2,8 +2,11 @@ package by.javatr.library.controller.command.impl;
 
 import by.javatr.library.controller.command.Command;
 import by.javatr.library.service.ClientService;
+import by.javatr.library.service.impl.ClientServiceImpl;
 import by.javatr.library.service.ServiceException;
 import by.javatr.library.service.factory.ServiceFactory;
+
+import static by.javatr.library.view.ScannerDataFromConsole.enterStringFromConsole;
 
 public class Registration implements Command {
     @Override
@@ -13,16 +16,13 @@ public class Registration implements Command {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         ClientService clientService = serviceFactory.getClientService();
 
-        try {
-            if (clientService != null) {
-                if (clientService.registerNewUser()) {
-                    response = "New user added!";
-                } else {
-                    response = "Wrong login or password!";
-                }
-            }
-        } catch (ServiceException e) {
-            response = "Error during added new user procedure";
+        String login = enterStringFromConsole();
+        String password = enterStringFromConsole();
+
+        if (clientService.registration(login, password)) {
+            response = "New user added!";
+        } else {
+            response = "Wrong login or password!";
         }
         return response;
     }

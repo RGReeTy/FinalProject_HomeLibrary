@@ -1,41 +1,29 @@
 package by.javatr.library.service.factory;
 
 import by.javatr.library.service.ClientService;
-import by.javatr.library.service.ServiceException;
+import by.javatr.library.service.LibraryService;
+import by.javatr.library.service.impl.ClientServiceImpl;
+import by.javatr.library.service.impl.LibraryServiceImpl;
 
 public class ServiceFactory {
 
-    private static volatile ServiceFactory instanceServiceFactory;
-    private static volatile ClientService instanceClientService;
+    private static final ServiceFactory instance = new ServiceFactory();
 
-    //creating instance of ServiceFactory by pattern Singleton with lazy initial.
+    private final ClientService clientService = new ClientServiceImpl();
+    private final LibraryService libraryService = new LibraryServiceImpl();
+
+    private ServiceFactory() {
+    }
+
     public static ServiceFactory getInstance() {
-        ServiceFactory localInstance = instanceServiceFactory;
-        if (localInstance == null) {
-            synchronized (ServiceFactory.class) {
-                localInstance = instanceServiceFactory;
-                if (localInstance == null) {
-                    instanceServiceFactory = localInstance = new ServiceFactory();
-                }
-            }
-        }
-        return localInstance;
+        return instance;
     }
 
     public ClientService getClientService() {
-        ClientService localClientService = instanceClientService;
-        if (localClientService == null) {
-            synchronized (ServiceFactory.class) {
-                localClientService = instanceClientService;
-                if (localClientService == null) {
-                    try {
-                        instanceClientService = localClientService = new ClientService();
-                    } catch (ServiceException e) {
-                        System.out.println("Sorry, we caught an error, try again later..");
-                    }
-                }
-            }
-        }
-        return localClientService;
+        return clientService;
+    }
+
+    public LibraryService getLibraryService() {
+        return libraryService;
     }
 }

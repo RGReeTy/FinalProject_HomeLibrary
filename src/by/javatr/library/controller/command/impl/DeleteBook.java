@@ -2,7 +2,7 @@ package by.javatr.library.controller.command.impl;
 
 import by.javatr.library.bean.Book;
 import by.javatr.library.controller.command.Command;
-import by.javatr.library.service.ClientService;
+import by.javatr.library.service.impl.ClientServiceImpl;
 import by.javatr.library.service.ServiceException;
 import by.javatr.library.service.factory.ServiceFactory;
 
@@ -12,16 +12,16 @@ public class DeleteBook implements Command {
         String response = null;
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        ClientService clientService = null;
-        clientService = serviceFactory.getClientService();
+        ClientServiceImpl clientServiceImpl = null;
+        clientServiceImpl = serviceFactory.getClientService();
 
-        if (clientService != null) {
+        if (clientServiceImpl != null) {
             try {
-                clientService.deleteBook();
+                clientServiceImpl.deleteBook();
             } catch (ServiceException e) {
                 System.out.println("Sorry, we caught an error, try again later..");
             }
-            for (Book book : clientService.returnCollectionOfBooks()) {
+            for (Book book : clientServiceImpl.returnCollectionOfBooks()) {
                 System.out.println(book);
                 response += book.toString() + "\n";
             }

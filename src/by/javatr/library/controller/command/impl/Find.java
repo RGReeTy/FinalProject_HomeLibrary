@@ -2,7 +2,7 @@ package by.javatr.library.controller.command.impl;
 
 import by.javatr.library.bean.Book;
 import by.javatr.library.controller.command.Command;
-import by.javatr.library.service.ClientService;
+import by.javatr.library.service.impl.ClientServiceImpl;
 import by.javatr.library.service.ServiceException;
 import by.javatr.library.service.factory.ServiceFactory;
 
@@ -12,14 +12,14 @@ public class Find implements Command {
         String response = null;
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        ClientService clientService = null;
+        ClientServiceImpl clientServiceImpl = null;
 
-        clientService = serviceFactory.getClientService();
+        clientServiceImpl = serviceFactory.getClientService();
 
 
-        if (clientService != null) {
+        if (clientServiceImpl != null) {
             try {
-                for (Book book : clientService.findTheBook()) {
+                for (Book book : clientServiceImpl.findTheBook()) {
                     response += book.toString() + "\n";
                 }
             } catch (ServiceException e) {
