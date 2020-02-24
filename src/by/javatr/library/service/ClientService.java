@@ -17,9 +17,10 @@ import java.util.regex.Pattern;
 import static by.javatr.library.service.validation.Validation.checkAllSymbolsOnLetterOrWhitespaceRegEx;
 
 public class ClientService {
-    private UserDAOImpl userDAO = new UserDAOImpl();// ну вот что, у тебя не хватало времени, чтобы переписать этот бред????
+    // ну вот что, у тебя не хватало времени, чтобы переписать этот бред????
     // мы не обсуждали, почему реализацию слоя дао раскрывать не стоит?
     private BookDAOImpl bookDAO;
+    private UserDAOImpl userDAO = new UserDAOImpl();
 
     {
         bookDAO = new BookDAOImpl();
