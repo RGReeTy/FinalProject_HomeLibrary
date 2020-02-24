@@ -24,13 +24,13 @@ public class UserDAOImpl implements UserDAO, FileDAO {
 
     private static final Map<Integer, User> clientList = new HashMap<Integer, User>();
     private static int id = 0;
-    private User currentUser = new User();
+    private User currentUser = new User();// кому я что рассказывала??????? опять поля объекта полезли
 
     {
         try {
             loadDataFromFile(address);
         } catch (DAOException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());// действительно, файл не загрузился, ну и фиг с ним, выведем тихонько строчку на консоль и все
         }
     }
 
@@ -57,7 +57,7 @@ public class UserDAOImpl implements UserDAO, FileDAO {
         }
         String usersInString = scanner.useDelimiter("\\A").next();
 
-        Pattern pattern = Pattern.compile("([а-яА-яA-Za-z0-9]+)\\s([а-яА-яA-Za-z0-9]+)\\s(true|false)");
+        Pattern pattern = Pattern.compile("([а-яА-яA-Za-z0-9]+)\\s([а-яА-яA-Za-z0-9]+)\\s(true|false)");// именуй константы
         Matcher matcher = pattern.matcher(usersInString);
 
         while (matcher.find()) {

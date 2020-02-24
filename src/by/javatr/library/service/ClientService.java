@@ -18,7 +18,8 @@ import java.util.regex.Pattern;
 import static by.javatr.library.service.validation.Validation.checkAllSymbolsOnLetterOrWhitespaceRegEx;
 
 public class ClientService {
-    private UserDAOImpl userDAO = new UserDAOImpl();
+    private UserDAOImpl userDAO = new UserDAOImpl();// ну вот что, у тебя не хватало времени, чтобы переписать этот бред????
+    // мы не обсуждали, почему реализацию слоя дао раскрывать не стоит?
     private BookDAOImpl bookDAO;
 
     {
@@ -29,7 +30,7 @@ public class ClientService {
         }
     }
 
-    private ArrayList<Book> books;
+    private ArrayList<Book> books;// опять 25
 
     public ClientService() throws ServiceException {
     }
@@ -47,6 +48,9 @@ public class ClientService {
     }
 
     public void addNewBook() throws IOException, ServiceException {
+        // такое ощущение, что я читаю код студента 1-го курса
+        // которому layered architecture вообще не зашло
+        // какое чтение из консоли в сервисах. Карл????
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Enter book's name..");
         String bookName = reader.readLine();
