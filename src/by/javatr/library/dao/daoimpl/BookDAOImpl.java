@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public class BookDAOImpl implements BookDAO, FileDAO {
 
     private ArrayList<Book> books;
-    private String address = "src\\by.javatr.library\\resource\\library\\Library.txt";
+    private String address = "src\\by\\javatr\\library\\resource\\library\\Library.txt";
 
     public BookDAOImpl() throws DAOException {
         books = new ArrayList<>();

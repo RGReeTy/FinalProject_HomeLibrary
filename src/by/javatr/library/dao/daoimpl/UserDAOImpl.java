@@ -20,8 +20,7 @@ import static by.javatr.library.service.validation.Validation.cryptThePassword;
 
 public class UserDAOImpl implements UserDAO, FileDAO {
 
-    private String address = "src\\by.javatr.library\\resource\\user\\users.txt";
-    // String address = "C:\\Users\\RGReeTy\\IdeaProjects\\FinalProject_HomeLibrary\\src\\by.javatr.library\\resource\\user\\users.txt";
+    private String address = "src\\by\\javatr\\library\\resource\\user\\users.txt";
 
     private static final Map<Integer, User> clientList = new HashMap<Integer, User>();
     private static int id = 0;
