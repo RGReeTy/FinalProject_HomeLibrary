@@ -16,8 +16,9 @@ import java.util.regex.Pattern;
 
 public class BookDAOImpl implements BookDAO, FileDAO {
 
-    private ArrayList<Book> books;
-    private String address = "src\\by.javatr.library\\resource\\library\\Library.txt";
+    private ArrayList<Book> books;// а если у тебя будет 2, 3, 20  реализаций различных дао - то как будешь работать с этой переменной? дублировать
+    //слушай внимательноо условия, мы определяли, что каждый метод в дао самостоятельно обращается к источнику
+    private String address = "src\\by.javatr.library\\resource\\library\\Library.txt";// src не должно присутствовать в пути к файлу, ты сможешь выполнить такой код только из ide
 
     public BookDAOImpl() throws DAOException {
         books = new ArrayList<>();
@@ -38,8 +39,8 @@ public class BookDAOImpl implements BookDAO, FileDAO {
     public void deleteBook() throws DAOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose book's number for deleting:");
-        int bookIDForDeleting = scanner.nextInt();
-        if (bookIDForDeleting <= books.size() & bookIDForDeleting > 0)
+        int bookIDForDeleting = scanner.nextInt();// что за бред!!!, почему дао вдруг что-то начинает читать из консоли?
+        if (bookIDForDeleting <= books.size() & bookIDForDeleting > 0)// {} и code convention придумали, видно, не для тебя
             books.remove(bookIDForDeleting - 1);
         saveLibraryToTXT();
     }
@@ -48,7 +49,8 @@ public class BookDAOImpl implements BookDAO, FileDAO {
     public void loadDataFromFile(String address) throws DAOException {
         Scanner scanner = null;
         try {
-            scanner = new Scanner(new File(address), "UTF-8");
+            scanner = new Scanner(new File(address), "UTF-8");// класс FileReader, читай чуть больше, чем тебе рассказали на лекциях
+            // а close() на этом объекте Пушкин будет вызывать?
         } catch (FileNotFoundException e) {
             throw new DAOException("Error at loading Library", e);
         }
@@ -58,7 +60,7 @@ public class BookDAOImpl implements BookDAO, FileDAO {
         Matcher matcher = pattern.matcher(BooksInString);
 
         while (matcher.find()) {
-            addBook(new Book(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4)));
+            addBook(new Book(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4)));// именуй константы, и почитай code convention
         }
     }
 
