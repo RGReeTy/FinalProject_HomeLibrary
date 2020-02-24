@@ -22,11 +22,7 @@ public class ClientService {
     private BookDAOImpl bookDAO;
 
     {
-        try {
-            bookDAO = new BookDAOImpl();
-        } catch (DAOException e) {
-            throw new ServiceException("Error at logic layer!", e);
-        }
+        bookDAO = new BookDAOImpl();
     }
 
     private ArrayList<Book> books;// опять 25

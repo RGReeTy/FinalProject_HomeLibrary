@@ -17,7 +17,7 @@ public class BookDAOImpl implements BookDAO {
     //слушай внимательноо условия, мы определяли, что каждый метод в дао самостоятельно обращается к источнику
     private String address = "src\\by\\javatr\\library\\resource\\library\\Library.txt";// src не должно присутствовать в пути к файлу, ты сможешь выполнить такой код только из ide
 
-    public BookDAOImpl() throws DAOException {
+    public BookDAOImpl() {
         books = new ArrayList<>();
         loadDataFromFile(address);
     }
@@ -43,13 +43,17 @@ public class BookDAOImpl implements BookDAO {
         saveLibraryToTXT();
     }
 
-    public void loadDataFromFile(String address) throws DAOException {
+    public void loadDataFromFile(String address) {
         //ArrayList<Book> books = null;
-        for (String val : new FileParser().loadDataFromFile(address)) {
-            Book book = parsingBookFromString(val);
-            if( book != null) {
-                books.add(book);
+        try {
+            for (String val : new FileParser().loadDataFromFile(address)) {
+                Book book = parsingBookFromString(val);
+                if( book != null) {
+                    books.add(book);
+                }
             }
+        } catch (DAOException e) {
+            e.printStackTrace();
         }
     }
 
