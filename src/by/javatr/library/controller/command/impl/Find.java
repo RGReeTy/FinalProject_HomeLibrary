@@ -2,30 +2,27 @@ package by.javatr.library.controller.command.impl;
 
 import by.javatr.library.bean.Book;
 import by.javatr.library.controller.command.Command;
-import by.javatr.library.service.impl.ClientServiceImpl;
-import by.javatr.library.service.ServiceException;
+import by.javatr.library.service.LibraryService;
 import by.javatr.library.service.factory.ServiceFactory;
+
+import static by.javatr.library.view.ScannerDataFromConsole.enterStringFromConsole;
 
 public class Find implements Command {
     @Override
     public String execute(String request) {
-        String response = null;
+        String response = "";
+        String textToFind = enterStringFromConsole();
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        ClientServiceImpl clientServiceImpl = null;
-
-        clientServiceImpl = serviceFactory.getClientService();
+        LibraryService libraryService = serviceFactory.getLibraryService();
 
 
-        if (clientServiceImpl != null) {
-            try {
-                for (Book book : clientServiceImpl.findTheBook()) {
-                    response += book.toString() + "\n";
-                }
-            } catch (ServiceException e) {
-                System.out.println("Sorry, we caught an error, try again later..");
-            }
-        } else response = "Error during load book's library procedure";
+        for (Book book : libraryService.findTheBook(textToFind)) {
+            response += book.toString() + "\n";
+        }
+        if (response.equals(null)) {
+            response = "Error during load book's library procedure";
+        }
 
         return response;
     }

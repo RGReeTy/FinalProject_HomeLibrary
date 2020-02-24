@@ -10,6 +10,8 @@ public interface BookDAO {
 
     void addBook(Book book) throws DAOException;
 
-    void deleteBook() throws DAOException;// интересно, какую книгу ты здесь собираешься удалять. Любую попавшуюся?
+    void deleteBook(int id) throws DAOException;// интересно, какую книгу ты здесь собираешься удалять. Любую попавшуюся?
+
+    void saveLibraryToTXT() throws DAOException;
 
 }

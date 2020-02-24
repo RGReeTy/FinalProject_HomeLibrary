@@ -2,30 +2,30 @@ package by.javatr.library.controller.command.impl;
 
 import by.javatr.library.bean.Book;
 import by.javatr.library.controller.command.Command;
-import by.javatr.library.service.impl.ClientServiceImpl;
+import by.javatr.library.service.LibraryService;
 import by.javatr.library.service.ServiceException;
 import by.javatr.library.service.factory.ServiceFactory;
+
+import static by.javatr.library.view.ScannerDataFromConsole.enterIntFromConsole;
 
 public class DeleteBook implements Command {
     @Override
     public String execute(String request) {
-        String response = null;
+        String response = "";
+        int idBookForDeleting = enterIntFromConsole();
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        ClientServiceImpl clientServiceImpl = null;
-        clientServiceImpl = serviceFactory.getClientService();
+        LibraryService libraryService = serviceFactory.getLibraryService();
 
-        if (clientServiceImpl != null) {
             try {
-                clientServiceImpl.deleteBook();
+                libraryService.deleteBook(idBookForDeleting);
             } catch (ServiceException e) {
                 System.out.println("Sorry, we caught an error, try again later..");
             }
-            for (Book book : clientServiceImpl.returnCollectionOfBooks()) {
+            for (Book book : libraryService.returnCollectionOfBooks()) {
                 System.out.println(book);
                 response += book.toString() + "\n";
-            }
-        } else response = "Error during load book's library procedure";
+        }
 
         return response;
     }

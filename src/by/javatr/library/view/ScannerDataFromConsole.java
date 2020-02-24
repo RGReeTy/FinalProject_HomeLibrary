@@ -1,5 +1,8 @@
 package by.javatr.library.view;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class ScannerDataFromConsole {
@@ -12,19 +15,20 @@ public class ScannerDataFromConsole {
             sc.next();
         }
         number = sc.nextInt();
-        sc.close();
         return number;
     }
 
     public static String enterStringFromConsole() {
-        Scanner sc = new Scanner(System.in);
-        String s = null;
-        System.out.println("Print a line plz:");
-        while (!sc.hasNextLine()) {
-            sc.next();
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Input a line please:");
+        try {
+            stringBuilder.append(br.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        s = sc.nextLine();
-        sc.close();
-        return s;
+        return stringBuilder.toString();
     }
+
 }
+

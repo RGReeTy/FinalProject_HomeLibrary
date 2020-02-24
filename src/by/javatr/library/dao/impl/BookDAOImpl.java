@@ -33,7 +33,7 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public void deleteBook() throws DAOException {
+    public void deleteBook(int id) throws DAOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose book's number for deleting:");
         int bookIDForDeleting = scanner.nextInt();// что за бред!!!, почему дао вдруг что-то начинает читать из консоли?
@@ -48,7 +48,7 @@ public class BookDAOImpl implements BookDAO {
         try {
             for (String val : new FileParser().loadDataFromFile(address)) {
                 Book book = parsingBookFromString(val);
-                if( book != null) {
+                if (book != null) {
                     books.add(book);
                 }
             }

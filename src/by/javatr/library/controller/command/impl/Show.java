@@ -2,7 +2,7 @@ package by.javatr.library.controller.command.impl;
 
 import by.javatr.library.bean.Book;
 import by.javatr.library.controller.command.Command;
-import by.javatr.library.service.impl.ClientServiceImpl;
+import by.javatr.library.service.LibraryService;
 import by.javatr.library.service.factory.ServiceFactory;
 
 public class Show implements Command {
@@ -11,15 +11,12 @@ public class Show implements Command {
         String response = "";
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        ClientServiceImpl clientServiceImpl = null;
-        clientServiceImpl = serviceFactory.getClientService();
+        LibraryService libraryService = serviceFactory.getLibraryService();
 
-        if (clientServiceImpl != null) {
-            for (Book book : clientServiceImpl.returnCollectionOfBooks()) {
 
-                response += book.toString() + "\n";
-            }
-        } else response = "Error during load book's library procedure";
+        for (Book book : libraryService.returnCollectionOfBooks()) {
+            response += book.toString() + "\n";
+        }
 
         return response;
     }

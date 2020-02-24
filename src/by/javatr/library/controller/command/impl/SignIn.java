@@ -9,8 +9,7 @@ import static by.javatr.library.view.ScannerDataFromConsole.enterStringFromConso
 public class SignIn implements Command {
     @Override
     public String execute(String request) {
-
-        String response = null;
+        String response = "";
 
         String login = enterStringFromConsole();
         String password = enterStringFromConsole();

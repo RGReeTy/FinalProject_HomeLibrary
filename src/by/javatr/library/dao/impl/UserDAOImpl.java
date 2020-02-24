@@ -64,13 +64,12 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-
     public User getCurrentUser() {
         return currentUser;
     }
 
     @Override
-    public void registration(String login, String password) throws DAOException {
+    public boolean registration(String login, String password) throws DAOException {
         if (!signIn(login, password)) {
             User registeredUser = new User();
             registeredUser.setUserName(login);
@@ -79,6 +78,7 @@ public class UserDAOImpl implements UserDAO {
             saveNewUserToFile(registeredUser);
         }
         loadDataFromFile(address);
+        return true;
     }
 
     private void saveNewUserToFile(User userForRegistr) throws DAOException {
