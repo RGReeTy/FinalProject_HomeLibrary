@@ -1,4 +1,4 @@
-package by.javatr.library.dao.daoimpl;
+package by.javatr.library.dao.impl;
 
 import by.javatr.library.bean.User;
 import by.javatr.library.dao.DAOException;

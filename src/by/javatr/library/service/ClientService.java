@@ -2,10 +2,9 @@ package by.javatr.library.service;
 
 import by.javatr.library.bean.Book;
 import by.javatr.library.dao.DAOException;
-import by.javatr.library.dao.daoimpl.BookDAOImpl;
-import by.javatr.library.dao.daoimpl.UserDAOImpl;
+import by.javatr.library.dao.impl.BookDAOImpl;
+import by.javatr.library.dao.impl.UserDAOImpl;
 import by.javatr.library.service.factory.BookBuilder;
-import by.javatr.library.service.ServiceException;
 
 import java.io.BufferedReader;
 import java.io.IOException;

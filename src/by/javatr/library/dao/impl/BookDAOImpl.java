@@ -1,4 +1,4 @@
-package by.javatr.library.dao.daoimpl;
+package by.javatr.library.dao.impl;
 
 import by.javatr.library.bean.Book;
 import by.javatr.library.dao.BookDAO;
@@ -18,7 +18,7 @@ public class BookDAOImpl implements BookDAO, FileDAO {
 
     private ArrayList<Book> books;// а если у тебя будет 2, 3, 20  реализаций различных дао - то как будешь работать с этой переменной? дублировать
     //слушай внимательноо условия, мы определяли, что каждый метод в дао самостоятельно обращается к источнику
-    private String address = "src\\by.javatr.library\\resource\\library\\Library.txt";// src не должно присутствовать в пути к файлу, ты сможешь выполнить такой код только из ide
+    private String address = "src\\by\\javatr\\library\\resource\\library\\Library.txt";// src не должно присутствовать в пути к файлу, ты сможешь выполнить такой код только из ide
 
     public BookDAOImpl() throws DAOException {
         books = new ArrayList<>();
