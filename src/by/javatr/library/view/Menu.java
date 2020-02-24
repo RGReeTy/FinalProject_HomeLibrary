@@ -2,11 +2,10 @@ package by.javatr.library.view;
 
 import by.javatr.library.controller.Controller;
 
-import java.util.Scanner;
+import static by.javatr.library.view.ScannerDataFromConsole.enterStringFromConsole;
 
 public class Menu {
     Controller controller = new Controller();
-    Scanner scanner = new Scanner(System.in);
     String response;
     String request;
     final String WELCOME_TEXT = "Welcome to the library!";
@@ -27,7 +26,7 @@ public class Menu {
     private void workWithLibrary() {
         System.out.println(OPTIONS_USER);
 
-        request = scanner.nextLine();
+        request = enterStringFromConsole();
 
         if (request.equalsIgnoreCase("QUIT")) {
             System.out.println(BUE_TEXT);
@@ -40,7 +39,7 @@ public class Menu {
 
     private void registerNewUser() {
         System.out.println("Do you want to register as a new user? (Y/N)");
-        if (scanner.nextLine().equalsIgnoreCase("Y")) {
+        if (enterStringFromConsole().equalsIgnoreCase("Y")) {
             controller.executeTask("REGISTRATION");
         }
         run();
