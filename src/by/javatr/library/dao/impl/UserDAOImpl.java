@@ -2,24 +2,23 @@ package by.javatr.library.dao.impl;
 
 import by.javatr.library.bean.User;
 import by.javatr.library.dao.DAOException;
-import by.javatr.library.dao.FileDAO;
+import by.javatr.library.dao.FileParser;
 import by.javatr.library.dao.UserDAO;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static by.javatr.library.service.validation.Validation.checkTheUserOnAuth;
 import static by.javatr.library.service.validation.Validation.cryptThePassword;
 
-public class UserDAOImpl implements UserDAO, FileDAO {
+public class UserDAOImpl implements UserDAO {
+
+    private final String FIELD = "([а-яА-яA-Za-z0-9]+)";
+    private final String IS_ADMIN = "(true|false)";
 
     private String address = "src\\by\\javatr\\library\\resource\\user\\users.txt";
 
@@ -48,24 +47,23 @@ public class UserDAOImpl implements UserDAO, FileDAO {
         return false;
     }
 
-    @Override
-    public List<String> loadDataFromFile(String address) throws DAOException {
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(new File(address), "UTF-8");
-        } catch (FileNotFoundException e) {
-            throw new DAOException("File not found!");
-        }
-        String usersInString = scanner.useDelimiter("\\A").next();
+    public void loadDataFromFile(String address) throws DAOException {
 
-        Pattern pattern = Pattern.compile("([а-яА-яA-Za-z0-9]+)\\s([а-яА-яA-Za-z0-9]+)\\s(true|false)");// именуй константы
-        Matcher matcher = pattern.matcher(usersInString);
+        for (String val : new FileParser().loadDataFromFile(address)) {
+            parsingUserFromString(val);
+
+        }
+    }
+
+    private void parsingUserFromString(String text) {
+        Pattern pattern = Pattern.compile(FIELD + "\\s" + FIELD + "\\s" + IS_ADMIN);// именуй константы
+        Matcher matcher = pattern.matcher(text);
 
         while (matcher.find()) {
             clientList.put(++id, new User(matcher.group(1), matcher.group(2), Boolean.parseBoolean(matcher.group(3))));
         }
-        return null;
     }
+
 
     public User getCurrentUser() {
         return currentUser;

@@ -45,8 +45,7 @@ public class BookDAOImpl implements BookDAO {
 
     public void loadDataFromFile(String address) throws DAOException {
         //ArrayList<Book> books = null;
-        FileParser parser = new FileParser();
-        for (String val : parser.loadDataFromFile(address)) {
+        for (String val : new FileParser().loadDataFromFile(address)) {
             Book book = parsingBookFromString(val);
             if( book != null) {
                 books.add(book);
