@@ -3,18 +3,15 @@ package by.javatr.library.dao.impl;
 import by.javatr.library.bean.Book;
 import by.javatr.library.dao.BookDAO;
 import by.javatr.library.dao.DAOException;
-import by.javatr.library.dao.FileDAO;
+import by.javatr.library.dao.FileParser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BookDAOImpl implements BookDAO, FileDAO {
+public class BookDAOImpl implements BookDAO {
 
     private ArrayList<Book> books;// а если у тебя будет 2, 3, 20  реализаций различных дао - то как будешь работать с этой переменной? дублировать
     //слушай внимательноо условия, мы определяли, что каждый метод в дао самостоятельно обращается к источнику
@@ -40,28 +37,32 @@ public class BookDAOImpl implements BookDAO, FileDAO {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose book's number for deleting:");
         int bookIDForDeleting = scanner.nextInt();// что за бред!!!, почему дао вдруг что-то начинает читать из консоли?
-        if (bookIDForDeleting <= books.size() & bookIDForDeleting > 0)// {} и code convention придумали, видно, не для тебя
+        if (bookIDForDeleting <= books.size() & bookIDForDeleting > 0) {// {} и code convention придумали, видно, не для тебя
             books.remove(bookIDForDeleting - 1);
+        }
         saveLibraryToTXT();
     }
 
-    @Override
     public void loadDataFromFile(String address) throws DAOException {
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(new File(address), "UTF-8");// класс FileReader, читай чуть больше, чем тебе рассказали на лекциях
-            // а close() на этом объекте Пушкин будет вызывать?
-        } catch (FileNotFoundException e) {
-            throw new DAOException("Error at loading Library", e);
+        //ArrayList<Book> books = null;
+        FileParser parser = new FileParser();
+        for (String val : parser.loadDataFromFile(address)) {
+            Book book = parsingBookFromString(val);
+            if( book != null) {
+                books.add(book);
+            }
         }
-        String BooksInString = scanner.useDelimiter("\\A").next(); // \\A - The beginning of the input(docs.oracle.com)
+    }
 
+    private Book parsingBookFromString(String text) {
+        Book book = null;
         Pattern pattern = Pattern.compile("([а-яА-яA-Za-z0-9 .,?!\"]+)\\+([а-яА-яA-Za-z0-9 .,?!\"]+)\\+([а-яА-яA-Za-z0-9 .,?!\"]+)\\+(.+)@");
-        Matcher matcher = pattern.matcher(BooksInString);
+        Matcher matcher = pattern.matcher(text);
 
-        while (matcher.find()) {
-            addBook(new Book(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4)));// именуй константы, и почитай code convention
+        if (matcher.find()) {
+            book = new Book(matcher.group(1).trim(), matcher.group(2).trim(), matcher.group(3).trim(), matcher.group(4).trim());// именуй константы, и почитай code convention
         }
+        return book;
     }
 
     public void saveLibraryToTXT() throws DAOException {

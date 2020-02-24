@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -48,7 +49,7 @@ public class UserDAOImpl implements UserDAO, FileDAO {
     }
 
     @Override
-    public void loadDataFromFile(String address) throws DAOException {
+    public List<String> loadDataFromFile(String address) throws DAOException {
         Scanner scanner = null;
         try {
             scanner = new Scanner(new File(address), "UTF-8");
@@ -63,6 +64,7 @@ public class UserDAOImpl implements UserDAO, FileDAO {
         while (matcher.find()) {
             clientList.put(++id, new User(matcher.group(1), matcher.group(2), Boolean.parseBoolean(matcher.group(3))));
         }
+        return null;
     }
 
     public User getCurrentUser() {

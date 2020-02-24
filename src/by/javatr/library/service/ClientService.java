@@ -4,7 +4,7 @@ import by.javatr.library.bean.Book;
 import by.javatr.library.dao.DAOException;
 import by.javatr.library.dao.impl.BookDAOImpl;
 import by.javatr.library.dao.impl.UserDAOImpl;
-import by.javatr.library.service.factory.BookBuilder;
+import by.javatr.library.dao.BookBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;

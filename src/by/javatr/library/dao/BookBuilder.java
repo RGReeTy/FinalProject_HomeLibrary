@@ -1,4 +1,4 @@
-package by.javatr.library.service.factory;
+package by.javatr.library.dao;
 
 import by.javatr.library.bean.Book;
 
