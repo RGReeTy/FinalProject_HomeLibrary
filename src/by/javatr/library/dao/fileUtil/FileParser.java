@@ -1,4 +1,7 @@
-package by.javatr.library.dao;
+package by.javatr.library.dao.fileUtil;
+
+import by.javatr.library.dao.DAOException;
+import by.javatr.library.dao.FileDAO;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -19,7 +22,7 @@ public class FileParser implements FileDAO {
                 list.add(s.trim());
             }
         } catch (FileNotFoundException ex) {
-            throw new DAOException("File not found.", ex);
+            throw new DAOException("File not found. ", ex);
         } catch (IOException e) {
             throw new DAOException("Error at read method.", e);
         }

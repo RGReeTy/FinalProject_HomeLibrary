@@ -3,7 +3,7 @@ package by.javatr.library.dao.impl;
 import by.javatr.library.bean.Book;
 import by.javatr.library.dao.BookDAO;
 import by.javatr.library.dao.DAOException;
-import by.javatr.library.dao.FileParser;
+import by.javatr.library.dao.fileUtil.FileParser;
 
 import java.io.*;
 import java.util.ArrayList;

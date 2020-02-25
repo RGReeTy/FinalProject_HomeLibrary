@@ -6,10 +6,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Validation {
-        //Next number is constant to Cesar's shift
+    //Next number is constant to Cesar's shift
     final static int plusStepForChar = 13;
 
     public static boolean checkTheUserOnAuth(String login, String password, User user) {
+        if (user == null) {
+            return false;
+        }
         return user.getUserName().equalsIgnoreCase(login)
                 & user.getUserPassword().equalsIgnoreCase(cryptThePassword(password));
     }

@@ -2,12 +2,15 @@ package by.javatr.library.dao.impl;
 
 import by.javatr.library.bean.User;
 import by.javatr.library.dao.DAOException;
-import by.javatr.library.dao.FileParser;
+import by.javatr.library.dao.fileUtil.FileManager;
 import by.javatr.library.dao.UserDAO;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,53 +22,45 @@ public class UserDAOImpl implements UserDAO {
 
     private final String FIELD = "([а-яА-яA-Za-z0-9]+)";
     private final String IS_ADMIN = "(true|false)";
+    private final String address = "resource/users.txt";
+    private final File FILE = new File(address);
 
-    private String address = "src\\by\\javatr\\library\\resource\\user\\users.txt";
-
-    private static final Map<Integer, User> clientList = new HashMap<Integer, User>();
-    private static int id = 0;
-    private User currentUser = new User();// кому я что рассказывала??????? опять поля объекта полезли
-
-    {
-        try {
-            loadDataFromFile(address);
-        } catch (DAOException e) {
-            System.out.println(e.getMessage());// действительно, файл не загрузился, ну и фиг с ним, выведем тихонько строчку на консоль и все
-        }
-    }
 
     @Override
     public boolean signIn(String login, String password) throws DAOException {
-        for (Map.Entry<Integer, User> entry : clientList.entrySet()) {
-            if (checkTheUserOnAuth(login, password, entry.getValue())) {
-                currentUser.setUserName(entry.getValue().getUserName());
-                currentUser.setUserPassword(entry.getValue().getUserPassword());
-                currentUser.setAdmin(entry.getValue().isAdmin());
+        List<User> users = getUsersFromFile();
+        if (users == null) {
+            throw new DAOException("User not found");
+        }
+        for (User user : users) {
+            if (checkTheUserOnAuth(login,password, user)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void loadDataFromFile(String address) throws DAOException {
+    public List<User> getUsersFromFile() throws DAOException {
+        List<User> clientList = new ArrayList<>();
+        FileManager manager = new FileManager();
 
-        for (String val : new FileParser().loadDataFromFile(address)) {
-            parsingUserFromString(val);
-
+        for (String val : manager.readFile(FILE)) {
+            clientList.add(parsingUserFromString(val));
         }
+        return clientList;
+
     }
 
-    private void parsingUserFromString(String text) {
+    private User parsingUserFromString(String text) {
+        User user = null;
         Pattern pattern = Pattern.compile(FIELD + "\\s" + FIELD + "\\s" + IS_ADMIN);// именуй константы
         Matcher matcher = pattern.matcher(text);
 
         while (matcher.find()) {
-            clientList.put(++id, new User(matcher.group(1), matcher.group(2), Boolean.parseBoolean(matcher.group(3))));
+            user = new User(matcher.group(1), matcher.group(2), Boolean.parseBoolean(matcher.group(3)));
+            System.out.println(user.toString());
         }
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
+        return user;
     }
 
     @Override
@@ -77,7 +72,6 @@ public class UserDAOImpl implements UserDAO {
             registeredUser.setAdmin(false);
             saveNewUserToFile(registeredUser);
         }
-        loadDataFromFile(address);
         return true;
     }
 

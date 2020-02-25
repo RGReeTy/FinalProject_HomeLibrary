@@ -15,8 +15,7 @@ public class SignIn implements Command {
         String password = enterStringFromConsole();
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        ClientService clientService = null;
-        clientService = serviceFactory.getClientService();
+        ClientService clientService = serviceFactory.getClientService();
 
         if (clientService.singIn(login, password)) {
             response = "Welcome";

@@ -7,4 +7,5 @@ public interface UserDAO {
     boolean registration(String login, String password) throws DAOException;
 
 
+
 }
