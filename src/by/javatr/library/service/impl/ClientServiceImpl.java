@@ -5,7 +5,7 @@ import by.javatr.library.dao.DAOFactory;
 import by.javatr.library.dao.UserDAO;
 import by.javatr.library.service.ClientService;
 
-import static by.javatr.library.service.validation.Validation.checkAllSymbolsOnLetterOrWhitespaceRegEx;
+import static by.javatr.library.service.validation.Validation.checkAllSymbolsOnLetterOrDigit;
 
 public class ClientServiceImpl implements ClientService {
 
@@ -14,7 +14,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public boolean singIn(String login, String password) {
-        if (checkAllSymbolsOnLetterOrWhitespaceRegEx(login, password)) {
+        if (checkAllSymbolsOnLetterOrDigit(login, password)) {
             DAOFactory daoFactory = DAOFactory.getInstance();
             UserDAO userDAO = daoFactory.getUserDAO();
             try {
@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public boolean registration(String login, String password) {
-        if (checkAllSymbolsOnLetterOrWhitespaceRegEx(login, password)) {
+        if (checkAllSymbolsOnLetterOrDigit(login, password)) {
             DAOFactory daoFactory = DAOFactory.getInstance();
             UserDAO userDAO = daoFactory.getUserDAO();
             try {

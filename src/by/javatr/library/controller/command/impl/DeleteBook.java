@@ -12,6 +12,7 @@ public class DeleteBook implements Command {
     @Override
     public String execute(String request) {
         String response = "";
+        System.out.println("Choose book's number for deleting:");
         int idBookForDeleting = enterIntFromConsole();
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();

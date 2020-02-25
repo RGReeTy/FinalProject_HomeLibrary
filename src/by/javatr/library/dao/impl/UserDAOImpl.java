@@ -6,17 +6,12 @@ import by.javatr.library.dao.fileUtil.FileManager;
 import by.javatr.library.dao.UserDAO;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static by.javatr.library.service.validation.Validation.checkTheUserOnAuth;
-import static by.javatr.library.service.validation.Validation.cryptThePassword;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -33,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
             throw new DAOException("User not found");
         }
         for (User user : users) {
-            if (checkTheUserOnAuth(login,password, user)) {
+            if (checkTheUserOnAuth(login, password, user)) {
                 return true;
             }
         }
@@ -44,11 +39,10 @@ public class UserDAOImpl implements UserDAO {
         List<User> clientList = new ArrayList<>();
         FileManager manager = new FileManager();
 
-        for (String val : manager.readFile(FILE)) {
+        for (String val : manager.loadDataFromFile(FILE)) {
             clientList.add(parsingUserFromString(val));
         }
         return clientList;
-
     }
 
     private User parsingUserFromString(String text) {
@@ -58,7 +52,6 @@ public class UserDAOImpl implements UserDAO {
 
         while (matcher.find()) {
             user = new User(matcher.group(1), matcher.group(2), Boolean.parseBoolean(matcher.group(3)));
-            System.out.println(user.toString());
         }
         return user;
     }
@@ -76,14 +69,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private void saveNewUserToFile(User userForRegistr) throws DAOException {
-        try (FileWriter writer = new FileWriter(address, true)) {
-            writer.append(System.lineSeparator());
-            writer.write(userForRegistr.getUserName() + " "
-                    + cryptThePassword(userForRegistr.getUserPassword())
-                    + " " + userForRegistr.isAdmin());
-            writer.flush();
-        } catch (IOException ex) {
-            throw new DAOException("Error at saving new user", ex);
-        }
+        FileManager manager = new FileManager();
+        manager.writeUserToFile(userForRegistr, FILE, true);
     }
 }

@@ -21,18 +21,19 @@ public class LibraryServiceImpl implements LibraryService {
         } catch (DAOException e) {
             throw new ServiceException("Error during adding new book!", e);
         }
-        try {
-            bookDAO.saveLibraryToTXT();
-        } catch (DAOException e) {
-            throw new ServiceException("Error during saving new book!", e);
-        }
     }
 
     public List<Book> returnCollectionOfBooks() {
         DAOFactory daoFactory = DAOFactory.getInstance();
         BookDAO bookDAO = daoFactory.getBookDAO();
+        List<Book> books = null;
 
-        return  bookDAO.getAllBooks();
+        try {
+            books = bookDAO.getAllBooks();
+        } catch (DAOException e) {
+            System.out.println("Error during loading library!");
+        }
+        return books;
     }
 
 
@@ -40,7 +41,12 @@ public class LibraryServiceImpl implements LibraryService {
         DAOFactory daoFactory = DAOFactory.getInstance();
         BookDAO bookDAO = daoFactory.getBookDAO();
 
-        List<Book> findingBooks = bookDAO.getAllBooks();
+        List<Book> findingBooks = null;
+        try {
+            findingBooks = bookDAO.getAllBooks();
+        } catch (DAOException e) {
+            System.out.println("Error during loading library!");
+        }
 
         Pattern pattern = Pattern.compile(textToFind.toLowerCase());
 

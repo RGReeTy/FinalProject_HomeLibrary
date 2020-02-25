@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 public class Validation {
     //Next number is constant to Cesar's shift
     final static int plusStepForChar = 13;
+    final static String CORRECT_SYMBOLS = "[a-zA-Z0-9]{1,20}$";
 
     public static boolean checkTheUserOnAuth(String login, String password, User user) {
         if (user == null) {
@@ -26,8 +27,8 @@ public class Validation {
         return cryptedWord;
     }
 
-    public static boolean checkAllSymbolsOnLetterOrWhitespaceRegEx(String login, String password) {
-        Pattern pattern = Pattern.compile("[a-zA-Z0-9]{1,20}$");
+    public static boolean checkAllSymbolsOnLetterOrDigit(String login, String password) {
+        Pattern pattern = Pattern.compile(CORRECT_SYMBOLS);
         Matcher matcherLogin = pattern.matcher(login);
         Matcher matcherPassword = pattern.matcher(password);
 
