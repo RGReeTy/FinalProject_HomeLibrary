@@ -1,15 +1,11 @@
-package by.javatr.library.dao.fileUtil;
+package by.javatr.library.dao;
 
 import by.javatr.library.bean.Book;
 import by.javatr.library.bean.User;
-import by.javatr.library.dao.DAOException;
-import by.javatr.library.dao.FileDAO;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static by.javatr.library.service.validation.Validation.cryptThePassword;
 
 public class FileManager implements FileDAO {
 
@@ -35,7 +31,7 @@ public class FileManager implements FileDAO {
         try (FileWriter writer = new FileWriter(file, append)) {
             writer.append(System.lineSeparator());
             writer.write(user.getUserName() + " "
-                    + cryptThePassword(user.getUserPassword())
+                    + user.getUserPassword()
                     + " " + user.isAdmin());
             writer.flush();
         } catch (IOException ex) {

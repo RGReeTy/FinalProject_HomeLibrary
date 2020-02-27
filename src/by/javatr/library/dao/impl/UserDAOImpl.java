@@ -3,7 +3,7 @@ package by.javatr.library.dao.impl;
 import by.javatr.library.bean.User;
 import by.javatr.library.dao.DAOException;
 import by.javatr.library.dao.FileDAO;
-import by.javatr.library.dao.fileUtil.FileManager;
+import by.javatr.library.dao.FileManager;
 import by.javatr.library.dao.UserDAO;
 
 import java.io.File;

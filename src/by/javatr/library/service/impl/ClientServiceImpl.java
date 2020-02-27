@@ -8,6 +8,7 @@ import by.javatr.library.service.ClientService;
 import java.io.FileNotFoundException;
 
 import static by.javatr.library.service.validation.Validation.checkAllSymbolsOnLetterOrDigit;
+import static by.javatr.library.service.validation.Validation.cryptThePassword;
 
 public class ClientServiceImpl implements ClientService {
 
@@ -34,6 +35,8 @@ public class ClientServiceImpl implements ClientService {
             DAOFactory daoFactory = DAOFactory.getInstance();
             UserDAO userDAO = daoFactory.getUserDAO();
             try {
+                //Crypt the password
+                password = cryptThePassword(password);
                 return (userDAO.registration(login, password));
             } catch (DAOException | FileNotFoundException e) {
                 System.out.println("Error during login procedure");

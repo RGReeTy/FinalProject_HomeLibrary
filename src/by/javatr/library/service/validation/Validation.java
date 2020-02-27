@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class Validation {
     //Next number is constant to Cesar's shift
-    final static int plusStepForChar = 13;
+    final static int PLUS_STEP_FOR_CHAR = 13;
     final static String CORRECT_SYMBOLS = "[a-zA-Z0-9]{1,20}$";
 
     public static boolean checkTheUserOnAuth(String login, String password, User user) {
@@ -22,7 +22,7 @@ public class Validation {
         String cryptedWord = "";
         char[] symbols = password.toCharArray();
         for (char ch : symbols) {
-            cryptedWord += (ch + plusStepForChar);
+            cryptedWord += (ch + PLUS_STEP_FOR_CHAR);
         }
         return cryptedWord;
     }

@@ -4,7 +4,7 @@ import by.javatr.library.bean.Book;
 import by.javatr.library.dao.BookDAO;
 import by.javatr.library.dao.DAOException;
 import by.javatr.library.dao.FileDAO;
-import by.javatr.library.dao.fileUtil.FileManager;
+import by.javatr.library.dao.FileManager;
 
 import java.io.*;
 import java.util.ArrayList;
