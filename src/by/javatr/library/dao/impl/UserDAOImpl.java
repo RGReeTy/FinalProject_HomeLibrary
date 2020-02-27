@@ -2,10 +2,12 @@ package by.javatr.library.dao.impl;
 
 import by.javatr.library.bean.User;
 import by.javatr.library.dao.DAOException;
+import by.javatr.library.dao.FileDAO;
 import by.javatr.library.dao.fileUtil.FileManager;
 import by.javatr.library.dao.UserDAO;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -22,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public boolean signIn(String login, String password) throws DAOException {
+    public boolean signIn(String login, String password) throws DAOException, FileNotFoundException {
         List<User> users = getUsersFromFile();
         if (users == null) {
             throw new DAOException("User not found");
@@ -35,9 +37,9 @@ public class UserDAOImpl implements UserDAO {
         return false;
     }
 
-    public List<User> getUsersFromFile() throws DAOException {
+    public List<User> getUsersFromFile() throws DAOException, FileNotFoundException {
         List<User> clientList = new ArrayList<>();
-        FileManager manager = new FileManager();
+        FileDAO manager = new FileManager();
 
         for (String val : manager.loadDataFromFile(FILE)) {
             clientList.add(parsingUserFromString(val));
@@ -57,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean registration(String login, String password) throws DAOException {
+    public boolean registration(String login, String password) throws DAOException, FileNotFoundException {
         if (!signIn(login, password)) {
             User registeredUser = new User();
             registeredUser.setUserName(login);
@@ -69,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private void saveNewUserToFile(User userForRegistr) throws DAOException {
-        FileManager manager = new FileManager();
+        FileDAO manager = new FileManager();
         manager.writeUserToFile(userForRegistr, FILE, true);
     }
 }

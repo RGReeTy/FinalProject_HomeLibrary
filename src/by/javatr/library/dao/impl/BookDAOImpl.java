@@ -3,6 +3,7 @@ package by.javatr.library.dao.impl;
 import by.javatr.library.bean.Book;
 import by.javatr.library.dao.BookDAO;
 import by.javatr.library.dao.DAOException;
+import by.javatr.library.dao.FileDAO;
 import by.javatr.library.dao.fileUtil.FileManager;
 
 import java.io.*;
@@ -23,12 +24,12 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public List<Book> getAllBooks() throws DAOException {
         List<Book> library = new ArrayList<>();
-        FileManager manager = new FileManager();
+        FileDAO manager = new FileManager();
         try {
             for (String val : manager.loadDataFromFile(FILE)) {
                 library.add(parsingBookFromString(val));
             }
-        } catch (DAOException e) {
+        } catch (DAOException | FileNotFoundException e) {
             throw new DAOException("Error during loading library!", e);
         }
         return library;
@@ -37,7 +38,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public void addBook(Book book) throws DAOException {
-        FileManager manager = new FileManager();
+        FileDAO manager = new FileManager();
         manager.writeBookToFile(book, FILE, true);
     }
 
@@ -47,7 +48,7 @@ public class BookDAOImpl implements BookDAO {
         if (id <= books.size() & id > 0) {// {} и code convention придумали, видно, не для тебя
             books.remove(id - 1);
         }
-        FileManager manager = new FileManager();
+        FileDAO manager = new FileManager();
         for (Book book : books) {
             manager.writeBookToFile(book, FILE, false);
         }

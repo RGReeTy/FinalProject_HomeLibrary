@@ -5,6 +5,8 @@ import by.javatr.library.dao.DAOFactory;
 import by.javatr.library.dao.UserDAO;
 import by.javatr.library.service.ClientService;
 
+import java.io.FileNotFoundException;
+
 import static by.javatr.library.service.validation.Validation.checkAllSymbolsOnLetterOrDigit;
 
 public class ClientServiceImpl implements ClientService {
@@ -19,7 +21,7 @@ public class ClientServiceImpl implements ClientService {
             UserDAO userDAO = daoFactory.getUserDAO();
             try {
                 return (userDAO.signIn(login, password));
-            } catch (DAOException e) {
+            } catch (DAOException | FileNotFoundException e) {
                 System.out.println("Error during sign in procedure");
             }
         }
@@ -33,7 +35,7 @@ public class ClientServiceImpl implements ClientService {
             UserDAO userDAO = daoFactory.getUserDAO();
             try {
                 return (userDAO.registration(login, password));
-            } catch (DAOException e) {
+            } catch (DAOException | FileNotFoundException e) {
                 System.out.println("Error during login procedure");
             }
         }
