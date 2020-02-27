@@ -30,6 +30,7 @@ public class FileManager implements FileDAO {
         return list;
     }
 
+    @Override
     public void writeUserToFile(User user, File file, boolean append) throws DAOException {
         try (FileWriter writer = new FileWriter(file, append)) {
             writer.append(System.lineSeparator());
@@ -42,18 +43,17 @@ public class FileManager implements FileDAO {
         }
     }
 
+    @Override
     public void writeBookToFile(Book book, File file, boolean append) throws DAOException {
         try (FileWriter writer = new FileWriter(file, append)) {
             writer.append(System.lineSeparator());
             writer.write(book.getBookName() + " " +
-                                book.getAuthor() + " " +
-                                book.getTypeOfBook() + " " +
-                                book.getAboutBook() + "\n");
+                    book.getAuthor() + " " +
+                    book.getTypeOfBook() + " " +
+                    book.getAboutBook() + "\n");
             writer.flush();
         } catch (IOException ex) {
             throw new DAOException("Error at saving Library", ex);
         }
     }
-
-
 }
