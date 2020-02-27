@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static by.javatr.library.service.validation.Validation.checkTheUserOnAuth;
-
 public class UserDAOImpl implements UserDAO {
 
     private final String FIELD = "([а-яА-яA-Za-z0-9]+)";
@@ -27,7 +25,7 @@ public class UserDAOImpl implements UserDAO {
     public boolean signIn(String login, String password) throws DAOException, FileNotFoundException {
         List<User> users = getUsersFromFile();
         if (users == null) {
-            throw new DAOException("User not found");
+            return false;
         }
         for (User user : users) {
             if (checkTheUserOnAuth(login, password, user)) {
@@ -37,7 +35,15 @@ public class UserDAOImpl implements UserDAO {
         return false;
     }
 
-    public List<User> getUsersFromFile() throws DAOException, FileNotFoundException {
+    private boolean checkTheUserOnAuth(String login, String password, User user) {
+        if (user == null) {
+            return false;
+        }
+        return user.getUserName().equalsIgnoreCase(login)
+                & user.getUserPassword().equalsIgnoreCase(password);
+    }
+
+    private List<User> getUsersFromFile() throws DAOException, FileNotFoundException {
         List<User> clientList = new ArrayList<>();
         FileDAO manager = new FileManager();
 

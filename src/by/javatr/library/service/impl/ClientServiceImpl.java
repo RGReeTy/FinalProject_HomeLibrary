@@ -21,6 +21,8 @@ public class ClientServiceImpl implements ClientService {
             DAOFactory daoFactory = DAOFactory.getInstance();
             UserDAO userDAO = daoFactory.getUserDAO();
             try {
+                //Crypt the password
+                password = cryptThePassword(password);
                 return (userDAO.signIn(login, password));
             } catch (DAOException | FileNotFoundException e) {
                 System.out.println("Error during sign in procedure");

@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 
 public class Validation {
     //Next number is constant to Cesar's shift
-    final static int PLUS_STEP_FOR_CHAR = 13;
-    final static String CORRECT_SYMBOLS = "[a-zA-Z0-9]{1,20}$";
+    private final static int PLUS_STEP_FOR_CHAR = 13;
+    private final static String CORRECT_SYMBOLS = "[a-zA-Z0-9]{1,20}$";
 
     public static boolean checkTheUserOnAuth(String login, String password, User user) {
         if (user == null) {
