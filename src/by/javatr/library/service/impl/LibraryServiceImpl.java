@@ -7,6 +7,7 @@ import by.javatr.library.dao.DAOFactory;
 import by.javatr.library.service.LibraryService;
 import by.javatr.library.service.ServiceException;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,26 +41,25 @@ public class LibraryServiceImpl implements LibraryService {
     public List<Book> findTheBook(String textToFind) {
         DAOFactory daoFactory = DAOFactory.getInstance();
         BookDAO bookDAO = daoFactory.getBookDAO();
-
-        List<Book> findingBooks = null;
+        List<Book> temp = new LinkedList<>();
+        List<Book> findingBooks = new LinkedList<>();
         try {
-            findingBooks = bookDAO.getAllBooks();
+            findingBooks.addAll(bookDAO.getAllBooks());
         } catch (DAOException e) {
             System.out.println("Error during loading library!");
         }
-
         Pattern pattern = Pattern.compile(textToFind.toLowerCase());
 
         for (Book book : findingBooks) {
             Matcher matcher = pattern.matcher(book.toString().toLowerCase());
             if (matcher.find()) {
-                findingBooks.add(book);
+                temp.add(book);
             }
         }
-        if (findingBooks.size() == 0) {
+        if (temp.size() == 0) {
             return null;
         } else {
-            return findingBooks;
+            return temp;
         }
     }
 

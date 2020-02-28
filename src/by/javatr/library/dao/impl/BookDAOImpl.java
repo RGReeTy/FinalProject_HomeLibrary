@@ -6,7 +6,8 @@ import by.javatr.library.dao.DAOException;
 import by.javatr.library.dao.FileDAO;
 import by.javatr.library.dao.FileManager;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -27,13 +28,14 @@ public class BookDAOImpl implements BookDAO {
         FileDAO manager = new FileManager();
         try {
             for (String val : manager.loadDataFromFile(FILE)) {
-                library.add(parsingBookFromString(val));
+                if (val != null) {
+                    library.add(parsingBookFromString(val));
+                }
             }
         } catch (DAOException | FileNotFoundException e) {
             throw new DAOException("Error during loading library!", e);
         }
         return library;
-
     }
 
     @Override

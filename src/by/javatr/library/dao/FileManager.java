@@ -14,7 +14,7 @@ public class FileManager implements FileDAO {
         List<String> list = new ArrayList<>();
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            String s = null;
+            String s = "";
             while ((s = bufferedReader.readLine()) != null) {
                 list.add(s);
             }
