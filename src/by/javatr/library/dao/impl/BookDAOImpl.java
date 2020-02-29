@@ -20,7 +20,6 @@ public class BookDAOImpl implements BookDAO {
     //private String address = "src\\by\\javatr\\library\\resource\\library\\Library.txt";// src не должно присутствовать в пути к файлу, ты сможешь выполнить такой код только из ide
     private final String address = "resource/Library.txt";
     private final File FILE = new File(address);
-    private final String TITLE_AUTHOR_TYPE_ABOUT = "([а-яА-яA-Za-z0-9 .,?!\"]+)\\+([а-яА-яA-Za-z0-9 .,?!\"]+)\\+([а-яА-яA-Za-z0-9 .,?!\"]+)\\+(.+)@";
 
     @Override
     public List<Book> getAllBooks() throws DAOException {
@@ -61,11 +60,13 @@ public class BookDAOImpl implements BookDAO {
 
     private Book parsingBookFromString(String text) {
         Book book = null;
+        String TITLE_AUTHOR_TYPE_ABOUT = "([а-яА-яA-Za-z0-9 .,?!\"]+)\\+([а-яА-яA-Za-z0-9 .,?!\"]+)\\+([а-яА-яA-Za-z0-9 .,?!\"]+)\\+(.+)@";
+
         Pattern pattern = Pattern.compile(TITLE_AUTHOR_TYPE_ABOUT);
         Matcher matcher = pattern.matcher(text);
 
         if (matcher.find()) {
-            book = new Book(matcher.group(1).trim(), matcher.group(2).trim(), matcher.group(3).trim(), matcher.group(4).trim());// именуй константы, и почитай code convention
+            book = new Book(matcher.group(1).trim(), matcher.group(2).trim(), matcher.group(3).trim(), matcher.group(4).trim());
         }
         return book;
     }
