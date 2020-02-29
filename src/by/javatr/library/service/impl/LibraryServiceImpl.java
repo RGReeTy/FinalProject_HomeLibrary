@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LibraryServiceImpl implements LibraryService {
+
     @Override
     public void addNewBook(Book book) throws ServiceException {
         DAOFactory daoFactory = DAOFactory.getInstance();
@@ -24,7 +25,7 @@ public class LibraryServiceImpl implements LibraryService {
         }
     }
 
-    public List<Book> returnCollectionOfBooks() {
+    public List<Book> returnCollectionOfBooks() throws ServiceException {
         DAOFactory daoFactory = DAOFactory.getInstance();
         BookDAO bookDAO = daoFactory.getBookDAO();
         List<Book> books = null;
@@ -32,22 +33,15 @@ public class LibraryServiceImpl implements LibraryService {
         try {
             books = bookDAO.getAllBooks();
         } catch (DAOException e) {
-            System.out.println("Error during loading library!");
+            throw new ServiceException("Error during loading library!", e);
         }
         return books;
     }
 
 
-    public List<Book> findTheBook(String textToFind) {
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        BookDAO bookDAO = daoFactory.getBookDAO();
+    public List<Book> findTheBook(String textToFind) throws ServiceException {
         List<Book> temp = new LinkedList<>();
-        List<Book> findingBooks = new LinkedList<>();
-        try {
-            findingBooks.addAll(bookDAO.getAllBooks());
-        } catch (DAOException e) {
-            System.out.println("Error during loading library!");
-        }
+        List<Book> findingBooks = new LinkedList<>(returnCollectionOfBooks());
         Pattern pattern = Pattern.compile(textToFind.toLowerCase());
 
         for (Book book : findingBooks) {
@@ -56,11 +50,7 @@ public class LibraryServiceImpl implements LibraryService {
                 temp.add(book);
             }
         }
-        if (temp.size() == 0) {
-            return null;
-        } else {
-            return temp;
-        }
+        return temp;
     }
 
     @Override
@@ -72,6 +62,5 @@ public class LibraryServiceImpl implements LibraryService {
         } catch (DAOException e) {
             throw new ServiceException("Error during deleting procedure", e);
         }
-
     }
 }

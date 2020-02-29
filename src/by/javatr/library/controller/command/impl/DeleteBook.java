@@ -18,14 +18,19 @@ public class DeleteBook implements Command {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         LibraryService libraryService = serviceFactory.getLibraryService();
 
-            try {
-                libraryService.deleteBook(idBookForDeleting);
-            } catch (ServiceException e) {
-                System.out.println("Sorry, we caught an error, try again later..");
-            }
+        try {
+            libraryService.deleteBook(idBookForDeleting);
+        } catch (ServiceException e) {
+            System.out.println("Error during deleting procedure");
+            System.out.println("Sorry, we caught an error, try again later..");
+        }
+        try {
             for (Book book : libraryService.returnCollectionOfBooks()) {
                 System.out.println(book);
                 response += book.toString() + "\n";
+            }
+        } catch (ServiceException e) {
+            System.out.println("Sorry, we caught an error, try again later..");
         }
 
         return response;

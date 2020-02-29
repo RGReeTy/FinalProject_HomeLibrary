@@ -20,12 +20,12 @@ public class AddBook implements Command {
 
         try {
             libraryService.addNewBook(newBook);
+            for (Book book : libraryService.returnCollectionOfBooks()) {
+                System.out.println(book);
+                response += book.toString() + "\n";
+            }
         } catch (ServiceException e) {
-            request = "Error during adding new book";
-        }
-        for (Book book : libraryService.returnCollectionOfBooks()) {
-            System.out.println(book);
-            response += book.toString() + "\n";
+            System.out.println("Error during adding new book");
         }
 
         return response;

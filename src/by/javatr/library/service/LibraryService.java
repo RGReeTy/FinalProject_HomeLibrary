@@ -7,9 +7,9 @@ import java.util.List;
 public interface LibraryService {
     void addNewBook(Book book) throws ServiceException;
 
-    List<Book> returnCollectionOfBooks();
+    List<Book> returnCollectionOfBooks() throws ServiceException;
 
-    List<Book> findTheBook(String textToFind);
+    List<Book> findTheBook(String textToFind) throws ServiceException;
 
     void deleteBook(int id) throws ServiceException;
 }
