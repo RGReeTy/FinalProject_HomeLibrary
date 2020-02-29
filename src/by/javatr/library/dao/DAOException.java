@@ -1,7 +1,6 @@
 package by.javatr.library.dao;
 
 public class DAOException extends Exception {
-    //private String message = "Error at DAO layer";
 
     public DAOException() {
         super();
