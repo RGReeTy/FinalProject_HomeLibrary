@@ -15,8 +15,6 @@ import java.util.regex.Pattern;
 
 public class UserDAOImpl implements UserDAO {
 
-    private final String FIELD = "([а-яА-яA-Za-z0-9]+)";
-    private final String IS_ADMIN = "(true|false)";
     private final String address = "resource/users.txt";
     private final File FILE = new File(address);
 
@@ -24,9 +22,6 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean signIn(String login, String password) throws DAOException, FileNotFoundException {
         List<User> users = getUsersFromFile();
-        if (users == null) {
-            return false;
-        }
         for (User user : users) {
             if (checkTheUserOnAuth(login, password, user)) {
                 return true;
@@ -35,12 +30,31 @@ public class UserDAOImpl implements UserDAO {
         return false;
     }
 
+    @Override
+    public boolean registration(String login, String password) throws DAOException, FileNotFoundException {
+        if (!signIn(login, password)) {
+            User registeredUser = new User();
+            registeredUser.setUserName(login);
+            registeredUser.setUserPassword(password);
+            registeredUser.setAdmin(false);
+            saveNewUserToFile(registeredUser);
+            return true;
+        }
+        return false;
+    }
+
+    private void saveNewUserToFile(User userForRegistr) throws DAOException {
+        FileDAO manager = new FileManager();
+        manager.writeUserToFile(userForRegistr, FILE, true);
+    }
+
     private boolean checkTheUserOnAuth(String login, String password, User user) {
         if (user == null) {
             return false;
+        } else {
+            return user.getUserName().equalsIgnoreCase(login)
+                    & user.getUserPassword().equalsIgnoreCase(password);
         }
-        return user.getUserName().equalsIgnoreCase(login)
-                & user.getUserPassword().equalsIgnoreCase(password);
     }
 
     private List<User> getUsersFromFile() throws DAOException, FileNotFoundException {
@@ -55,6 +69,9 @@ public class UserDAOImpl implements UserDAO {
 
     private User parsingUserFromString(String text) {
         User user = null;
+        String IS_ADMIN = "(true|false)";
+        String FIELD = "([а-яА-яA-Za-z0-9]+)";
+
         Pattern pattern = Pattern.compile(FIELD + "\\s" + FIELD + "\\s" + IS_ADMIN);// именуй константы
         Matcher matcher = pattern.matcher(text);
 
@@ -64,20 +81,5 @@ public class UserDAOImpl implements UserDAO {
         return user;
     }
 
-    @Override
-    public boolean registration(String login, String password) throws DAOException, FileNotFoundException {
-        if (!signIn(login, password)) {
-            User registeredUser = new User();
-            registeredUser.setUserName(login);
-            registeredUser.setUserPassword(password);
-            registeredUser.setAdmin(false);
-            saveNewUserToFile(registeredUser);
-        }
-        return true;
-    }
 
-    private void saveNewUserToFile(User userForRegistr) throws DAOException {
-        FileDAO manager = new FileManager();
-        manager.writeUserToFile(userForRegistr, FILE, true);
-    }
 }
