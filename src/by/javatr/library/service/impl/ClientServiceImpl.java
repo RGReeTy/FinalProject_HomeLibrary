@@ -4,6 +4,7 @@ import by.javatr.library.dao.DAOException;
 import by.javatr.library.dao.DAOFactory;
 import by.javatr.library.dao.UserDAO;
 import by.javatr.library.service.ClientService;
+import by.javatr.library.service.ServiceException;
 
 import java.io.FileNotFoundException;
 
@@ -16,7 +17,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean singIn(String login, String password) {
+    public boolean singIn(String login, String password) throws ServiceException {
         if (checkAllSymbolsOnLetterOrDigit(login, password)) {
             DAOFactory daoFactory = DAOFactory.getInstance();
             UserDAO userDAO = daoFactory.getUserDAO();
@@ -24,15 +25,17 @@ public class ClientServiceImpl implements ClientService {
                 //Crypt the password
                 password = cryptThePassword(password);
                 return (userDAO.signIn(login, password));
-            } catch (DAOException | FileNotFoundException e) {
-                System.out.println("Error during sign in procedure");
+            } catch (DAOException e) {
+                throw new ServiceException("Error during sign in procedure", e);
+            } catch (FileNotFoundException ex) {
+                throw new ServiceException("File not found!", ex);
             }
         }
         return false;
     }
 
     @Override
-    public boolean registration(String login, String password) {
+    public boolean registration(String login, String password) throws ServiceException {
         if (checkAllSymbolsOnLetterOrDigit(login, password)) {
             DAOFactory daoFactory = DAOFactory.getInstance();
             UserDAO userDAO = daoFactory.getUserDAO();
@@ -40,8 +43,10 @@ public class ClientServiceImpl implements ClientService {
                 //Crypt the password
                 password = cryptThePassword(password);
                 return (userDAO.registration(login, password));
-            } catch (DAOException | FileNotFoundException e) {
-                System.out.println("Error during login procedure");
+            } catch (DAOException e) {
+                throw new ServiceException("Error during registration procedure");
+            } catch (FileNotFoundException ex) {
+                throw new ServiceException("File not found!");
             }
         }
         return false;
