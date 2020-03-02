@@ -21,6 +21,7 @@ public class Menu {
         }
     }
 
+
     private void workWithLibrary() {
         System.out.println(OPTIONS_USER);
 
@@ -34,6 +35,7 @@ public class Menu {
             workWithLibrary();
         }
     }
+
 
     private void registerNewUser() {
         System.out.println("Do you want to register as a new user? (Y/N)");
